@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agenda</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h2>Agenda de Horários</h2>
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Data</th>
+            <th>Horário</th>
+            <th>Ação</th>
+        </tr>
+        {% for ag in agendamentos %}
+        <tr>
+            <td>{{ ag[1] }}</td>
+            <td>{{ ag[2] }}</td>
+            <td>{{ ag[3] }}</td>
+            <td>{{ ag[4] }}</td>
+            <td>
+                <a href="/cancelar/{{ ag[0] }}">Cancelar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/">Voltar</a>
+</body>
+</html>
