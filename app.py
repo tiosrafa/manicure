@@ -1,7 +1,6 @@
 import os
 from flask import Flask, render_template, request, redirect
 import psycopg2
-from psycopg2 import sql
 from psycopg2.errors import UniqueViolation
 
 app = Flask(__name__)
@@ -9,13 +8,16 @@ app = Flask(__name__)
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 def get_connection():
-    return psycopg2.connect(DATABASE_URL)
+    if not DATABASE_URL:
+        raise Exception("DATABASE_URL não encontrada nas variáveis de ambiente.")
+    
+    return psycopg2.connect(DATABASE_URL, sslmode="require")
+
 
 def create_table():
     conn = get_connection()
     cur = conn.cursor()
 
-    # Cria tabela
     cur.execute("""
         CREATE TABLE IF NOT EXISTS agendamentos (
             id SERIAL PRIMARY KEY,
@@ -26,7 +28,7 @@ def create_table():
         )
     """)
 
-    # Adiciona constraint UNIQUE para evitar conflito real
+    # Evita criar constraint duplicada
     cur.execute("""
         DO $$
         BEGIN
@@ -44,7 +46,11 @@ def create_table():
     cur.close()
     conn.close()
 
-create_table()
+
+@app.before_first_request
+def initialize():
+    create_table()
+
 
 @app.route("/")
 def index():
@@ -55,6 +61,7 @@ def index():
     cur.close()
     conn.close()
     return render_template("index.html", agendamentos=agendamentos)
+
 
 @app.route("/agendar", methods=["POST"])
 def agendar():
@@ -85,6 +92,7 @@ def agendar():
 
     return redirect("/")
 
+
 @app.route("/cancelar/<int:id>")
 def cancelar(id):
     conn = get_connection()
@@ -95,5 +103,6 @@ def cancelar(id):
     conn.close()
     return redirect("/")
 
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=10000)
