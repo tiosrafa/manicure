@@ -1,11 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Painel Admin</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+
 <h1>Painel Admin</h1>
+
 <a href="/logout">Sair</a>
 
-<ul>
+<table border="1" style="width:100%; margin-top:20px;">
+<tr>
+<th>Nome</th>
+<th>Serviço</th>
+<th>Data</th>
+<th>Hora</th>
+<th>Ação</th>
+</tr>
+
 {% for ag in dados %}
-<li>
-{{ ag[1] }} - {{ ag[2] }} - {{ ag[3] }} {{ ag[4] }}
-<a href="/cancelar/{{ ag[0] }}">Cancelar</a>
-</li>
+<tr>
+<td>{{ ag[1] }}</td>
+<td>{{ ag[2] }}</td>
+<td>{{ ag[3] }}</td>
+<td>{{ ag[4] }}</td>
+<td><a href="/cancelar/{{ ag[0] }}">Cancelar</a></td>
+</tr>
 {% endfor %}
-</ul>
+
+</table>
+
+</div>
+
+</body>
+</html>
