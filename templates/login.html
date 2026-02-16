@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login Admin</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-    <h2>Área Administrativa</h2>
-    <form method="POST">
-        <input type="text" name="usuario" placeholder="Usuário" required>
-        <input type="password" name="senha" placeholder="Senha" required>
-        <button type="submit">Entrar</button>
-    </form>
-    <a href="/">Voltar</a>
-</body>
-</html>
+<h1>Login Admin</h1>
+
+<form method="POST" action="/login">
+    <input name="user" placeholder="Usuário">
+    <input name="senha" type="password" placeholder="Senha">
+    <button>Entrar</button>
+</form>
