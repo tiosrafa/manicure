@@ -1,0 +1,11 @@
+<h1>Painel Admin</h1>
+<a href="/logout">Sair</a>
+
+<ul>
+{% for ag in dados %}
+<li>
+{{ ag[1] }} - {{ ag[2] }} - {{ ag[3] }} {{ ag[4] }}
+<a href="/cancelar/{{ ag[0] }}">Cancelar</a>
+</li>
+{% endfor %}
+</ul>
