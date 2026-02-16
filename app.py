@@ -9,7 +9,7 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 
 def get_connection():
     if not DATABASE_URL:
-        raise Exception("DATABASE_URL não encontrada nas variáveis de ambiente.")
+        raise Exception("DATABASE_URL não configurada no Render.")
     
     return psycopg2.connect(DATABASE_URL, sslmode="require")
 
@@ -24,22 +24,9 @@ def create_table():
             nome VARCHAR(100) NOT NULL,
             servico VARCHAR(100) NOT NULL,
             data DATE NOT NULL,
-            hora TIME NOT NULL
+            hora TIME NOT NULL,
+            UNIQUE (data, hora)
         )
-    """)
-
-    # Evita criar constraint duplicada
-    cur.execute("""
-        DO $$
-        BEGIN
-            IF NOT EXISTS (
-                SELECT 1 FROM pg_constraint
-                WHERE conname = 'unique_data_hora'
-            ) THEN
-                ALTER TABLE agendamentos
-                ADD CONSTRAINT unique_data_hora UNIQUE (data, hora);
-            END IF;
-        END$$;
     """)
 
     conn.commit()
@@ -47,19 +34,17 @@ def create_table():
     conn.close()
 
 
-@app.before_first_request
-def initialize():
-    create_table()
-
-
 @app.route("/")
 def index():
+    create_table()  # garante que a tabela existe
+
     conn = get_connection()
     cur = conn.cursor()
     cur.execute("SELECT * FROM agendamentos ORDER BY data, hora")
     agendamentos = cur.fetchall()
     cur.close()
     conn.close()
+
     return render_template("index.html", agendamentos=agendamentos)
 
 
@@ -85,7 +70,7 @@ def agendar():
         conn.rollback()
         cur.close()
         conn.close()
-        return "Horário já foi reservado por outra pessoa. Escolha outro."
+        return "Horário já foi reservado por outra pessoa."
 
     cur.close()
     conn.close()
