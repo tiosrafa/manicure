@@ -1,8 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Admin</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+
 <h1>Login Admin</h1>
 
-<form method="POST" action="/login">
-    <input name="user" placeholder="Usuário">
-    <input name="senha" type="password" placeholder="Senha">
-    <button>Entrar</button>
+<form method="POST" action="/login" class="form-agenda">
+    <input name="usuario" placeholder="Usuário" required>
+    <input type="password" name="senha" placeholder="Senha" required>
+    <button type="submit">Entrar</button>
 </form>
 
+</div>
+
+</body>
+</html>
