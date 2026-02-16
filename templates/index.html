@@ -1,31 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Agendamento Manicure</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
+<h1>Agendar horário</h1>
 
-<h1>Agendar Horário</h1>
-
-<form method="POST" action="/agendar">
-    <input type="text" name="nome" placeholder="Nome" required>
-    <input type="text" name="servico" placeholder="Serviço" required>
+<form action="/agendar" method="POST">
+    <input name="nome" placeholder="Nome" required>
+    <input name="servico" placeholder="Serviço" required>
     <input type="date" name="data" required>
     <input type="time" name="hora" required>
-    <button type="submit">Agendar</button>
+    <button>Agendar</button>
 </form>
 
-<h2>Agenda</h2>
-
-<ul>
-{% for ag in agendamentos %}
-    <li>
-        {{ ag[1] }} - {{ ag[2] }} - {{ ag[3] }} às {{ ag[4] }}
-        <a href="/cancelar/{{ ag[0] }}">Cancelar</a>
-    </li>
-{% endfor %}
-</ul>
-
-</body>
-</html>
+<a href="/admin">Área Admin</a>
