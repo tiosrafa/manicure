@@ -1,11 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agendamento Manicure</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+
 <h1>Agendar horário</h1>
 
-<form action="/agendar" method="POST">
+<form action="/agendar" method="POST" class="form-agenda">
     <input name="nome" placeholder="Nome" required>
     <input name="servico" placeholder="Serviço" required>
     <input type="date" name="data" required>
     <input type="time" name="hora" required>
-    <button>Agendar</button>
+    <button type="submit">Agendar</button>
 </form>
 
-<a href="/admin">Área Admin</a>
+<br>
+
+<a href="/admin" class="admin-link">Área Admin</a>
+
+</div>
+
+</body>
+</html>
